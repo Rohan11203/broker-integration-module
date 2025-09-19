@@ -1,3 +1,5 @@
+import { ZERODHA_ACCESS_TOKEN } from "../config/config.js";
+
 interface ITokenInfo {
     accessToken: string;
     refreshToken: string;
@@ -31,6 +33,12 @@ const createTokenManager = () => {
     return {
         
         getToken: async (userId: string): Promise<string> => {
+
+            if (userId === 'testUser' && ZERODHA_ACCESS_TOKEN) {
+                console.log(`[TokenManager] Using provided TEST_USER_ACCESS_TOKEN from .env file.`);
+                return ZERODHA_ACCESS_TOKEN;
+            }
+            
             console.log(`[TokenManager] Getting token for user: ${userId}`);
             let tokenInfo = userTokens.get(userId);
 
